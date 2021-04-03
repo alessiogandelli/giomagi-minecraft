@@ -8,7 +8,7 @@ const toolPlugin = require('mineflayer-tool').plugin
 const RANGE_GOAL = 1
 
 const bot = mineflayer.createBot({
-    host: '35.207.93.61', // optional
+    host: '192.168.1.210', // optional
     username: 'giomagi', // email and password are required only for
     // online-mode=true servers
     version: false,                 // false corresponds to auto version detection (that's the default), put for example "1.8.8" if you need a specific version
@@ -83,11 +83,12 @@ bot.on('chat', function (username, message) {
     else if (message === 'ora')
         orario()
 
-    else if (message === 'dig'){
+    else if (message === 'dig') {
         bot.pathfinder.setGoal(new GoalNear(160, 63, 180, 1))
-        dig()}
+        dig()
+    }
 
-    else if (message ==='help')
+    else if (message === 'help')
         bot.chat('day, nanna, lavoro, ora, dig')
 
 
@@ -165,10 +166,14 @@ function dig() {
     let z = 182
 
     let target = bot.blockAt(new vec3(x, y, z))
-
-    bot.tool.equipForBlock(target, {}, () => {
+    if (bot.targetDigBlock) {
+        bot.chat(`already digging ${bot.targetDigBlock.name}`)
+    }else{
+        bot.tool.equipForBlock(target, {}, () => {
         bot.dig(target)
-    })
+    })  
+    }
+
 
 }
 
@@ -181,6 +186,6 @@ bot.on('wake', () => {
 
 
 bot.on('rain', () => {
-    console.log('ma diocane')
+    bot.chat('ma diocane')
 }
 )
