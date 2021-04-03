@@ -113,7 +113,7 @@ async function goToSleep() {
     if (bed) {
         try {
             await bot.sleep(bed)
-            bot.chat("I'm sleeping")
+            bot.chat("si dorme")
         } catch (err) {
             bot.chat(`I can't sleep: ${err.message}`)
         }
